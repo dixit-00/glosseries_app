@@ -41,6 +41,7 @@
 				3F9DE1B72D2BF39C00ABAEFA /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		3F9DE1B72D2BF39C00ABAEFA /* Products */ = {
 			isa = PBXGroup;
