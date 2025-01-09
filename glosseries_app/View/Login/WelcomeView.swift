@@ -40,7 +40,7 @@ struct ContentView: View {
                         .padding(.bottom,20)
                     
                     NavigationLink{
-                        signinView()
+                        SingInView()
                     } label: {
                         RoundButton(title: "Get Started"){
                         }
@@ -60,10 +60,9 @@ struct ContentView: View {
     }
 }
     
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView()
-        }
+#Preview {
+    NavigationView{
+        ContentView()
     }
-    
+}
 
