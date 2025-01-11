@@ -14,6 +14,7 @@ struct SingInView: View {
     @State var countryObj: Country?
     @State private var navigateToNextPage = false
     
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -66,13 +67,10 @@ struct SingInView: View {
                                 .padding(.trailing, 100)
                                 .keyboardType(.phonePad)
                             
-                         
                             Button(action: {
-                                
                                 if txtMobile.count == 10 {
                                     navigateToNextPage = true
                                 } else {
-                                  
                                     print("Invalid mobile number")
                                 }
                             }) {
@@ -83,33 +81,28 @@ struct SingInView: View {
                                     .foregroundColor(.blue)
                                     .padding(.trailing, 20)
                             }
-                        }
-                        Divider()
-                            .frame(width: 350)
-                        
-                        VStack {
-                            Text("or connect with social media")
-                                .font(.custom("YourCustomFont", size: 16))
-                                .foregroundColor(.textTitle)
-                                .multilineTextAlignment(.center)
-                                .padding(.top, 30)
-                                .padding(.bottom, 35)
                             
+                            NavigationLink(
+                                destination: OTPView(),  // The destination view
+                                isActive: $navigateToNextPage, // Binding to trigger navigation
+                                label: { EmptyView() } // Empty view because you don't want a visible link
+                            )
+                        }
                             Button {
-                               
+                                
                             } label: {
                                 HStack {
-                                    Image("google")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                        .padding(.trailing, 20)
+                                    //                         Image("communication.png")
+                                    //                                    .resizable()
+                                    //                                    .scaledToFit()
+                                    //                                    .frame(width: 20, height: 20)
+                                    //                                    .padding(.trailing, 20)
                                 }
-                                Text("Continue with Google")
+                                Text("SignIn with Email")
                                     .font(.custom("YourCustomFont", size: 18))
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
-                                    .padding(.trailing, 40)
+                                    .padding(.trailing)
                             }
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 60, maxHeight: 60)
                             .background(Color(hex: "5383EC"))
@@ -118,58 +111,89 @@ struct SingInView: View {
                             .padding(.bottom, 10)
                             
                             Button {
-                               
+                                
                             } label: {
                                 HStack {
-                                    Image("facebook")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                        .padding(.trailing, 20)
+                                    //                                Image("facebook")
+                                    //                                    .resizable()
+                                    //                                    .scaledToFit()
+                                    //                                    .frame(width: 20, height: 20)
+                                    //                                    .padding(.trailing, 20)
                                     
-                                    Text("Continue with Facebook")
+                                    Text("SignUp With Email")
                                         .font(.custom("YourCustomFont", size: 18))
                                         .foregroundColor(.white)
                                         .multilineTextAlignment(.center)
-                                        .padding(.trailing, 21)
+                                        .padding()
                                 }
                             }
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 60, maxHeight: 60)
                             .background(Color(hex: "4A6680"))
                             .cornerRadius(20)
                             .padding(.horizontal, 20)
+                            
+                            Divider()
+                                .frame(width: 350)
+                            
+                            VStack {
+                                Text("or connect with social media")
+                                    .font(.custom("YourCustomFont", size: 16))
+                                    .foregroundColor(.textTitle)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.top, 30)
+                                    .padding(.bottom, 35)
+                                HStack(spacing: 20) {  // Added spacing between the images
+                                    Image("google (2)")
+                                        .resizable()
+                                        .scaledToFit()  // Maintain aspect ratio
+                                        .frame(width: 40, height: 40)
+                                    
+                                    Image("facebook (1)")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40, height: 40)
+                                    
+                                    Image("apple")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40, height: 40)
+                                }
+                                .padding(.top, -30) // Applied top padding to the whole stack, instead of individual images
+                                
+                                
+                                
+                            }
                         }
+                        .padding(.top, 30)
                     }
-                    .padding(.top, 90)
                 }
+                .onAppear {
+                    self.countryObj = Country(phoneCode: "91", isoCode: "IN")
+                }
+                .sheet(isPresented: $isShowPicker, content: {
+                    CountryPickerUI(country: $countryObj)
+                })
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+                .ignoresSafeArea()
+                // Navigation to next page
+                NavigationLink(
+                    destination:  NextPageView(),
+                    label: { EmptyView() }
+                )
             }
-            .onAppear {
-                self.countryObj = Country(phoneCode: "91", isoCode: "IN")
-            }
-            .sheet(isPresented: $isShowPicker, content: {
-                CountryPickerUI(country: $countryObj)
-            })
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .ignoresSafeArea()
-            // Navigation to next page
-            NavigationLink(
-                destination:  NextPageView(),
-                label: { EmptyView() } 
-            )
         }
     }
-}
-
-struct NextPageView: View {
-    var body: some View {
-        VStack {
-            Text("You are now on the next page!")
-                .font(.title)
-                .padding()
+    
+    struct NextPageView: View {
+        var body: some View {
+            VStack {
+                Text("You are now on the next page!")
+                    .font(.title)
+                    .padding()
+            }
         }
     }
-}
 
 #Preview {
     SingInView()
